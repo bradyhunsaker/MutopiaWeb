@@ -135,19 +135,21 @@ until (eof CACHE || $pageCount >= $startAt + $pageMax) {
     my $go = 1;
 
     if ($FORM{'searchingfor'}) {
-        $FORM{'searchingfor'} =~ tr/a-z/A-Z/;
+        $FORM{'searchingfor'} = uc($FORM{'searchingfor'});
         if ($FORM{'searchingfor'} ne '') {
             my @searchlist = split(/ /, $FORM{'searchingfor'}, 0);
-            my $keywords = join('|',
+            my $keywords = uc(join('|',
                                 $title, $composer, $opus,
                                 $lyricist, $instrument,
                                 $date, $style, $metre, $arranger,
                                 $source, $copyright, $id,
                                 $maintainer, $maintaineremail,
                                 $maintainerweb, $extrainfo,
-                                $lilypondversion, $collections);
+                                $lilypondversion, $collections));
             foreach my $searchitem (@searchlist) {
-                if (!(uc($keywords) =~ $searchitem)) {
+                #print qq(Search item: $searchitem\n);
+                #print qq(Keywords: $keywords\n);
+                if (!($keywords =~ $searchitem)) {
                     $go = 0;
                     last;
                 }

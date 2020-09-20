@@ -2,6 +2,7 @@
 package HTMLcommon;
 use strict;
 use utf8;
+use Encode qw(decode);
 
 #
 # Routines common to the Mutopia site CGI scripts.
@@ -18,7 +19,7 @@ our $PAGE_MAX = 10;
 # This code was in-line and identical in both modules, so moved here
 # as a function. Returns the QUERY_STRING as an associative array.
 sub queryArgs {
-    my @pairs = split(/\&/, $ENV{'QUERY_STRING'}, 0);
+    my @pairs = split(/\&/, decode("UTF-8", $ENV{'QUERY_STRING'}), 0);
     my %FORM;
     foreach my $pair (@pairs) {
         my ($name, $value) = split(/=/, $pair, 3);
